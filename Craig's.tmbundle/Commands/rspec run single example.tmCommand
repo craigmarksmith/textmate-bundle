@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+
+test_path = ENV['TM_FILEPATH']
+line_number = ENV['TM_LINE_NUMBER'].to_i
+
+lines = File.read(test_path).split("\n")
+test_name = ''
+(0..line_number).each do |i|
+  if lines[line_number-i].match(/it ['"](.+)['"]/)
+    test_name = $1 
+    break
+  end
+end
+
+cmd = "spec #{test_path} -e \"#{test_name}\""
+result = `#{cmd}`
+puts result.gsub(/\n/, "&lt;br/&gt;")</string>
+	<key>input</key>
+	<string>document</string>
+	<key>keyEquivalent</key>
+	<string>@S</string>
+	<key>name</key>
+	<string>rspec run single example</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>uuid</key>
+	<string>EC1132FD-136D-4AE0-B3EF-93FB70DC1065</string>
+</dict>
+</plist>
